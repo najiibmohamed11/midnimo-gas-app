@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "559664637598",
+    "project_id": "midnimo-gas-b345d",
+    "storage_bucket": "midnimo-gas-b345d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:559664637598:android:cdbbcda2f83610a421fd8f",
+        "android_client_info": {
+          "package_name": "com.example.midnimo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCclYLV1H4zB2x4BAMnc5gw5aRYAxEl8M4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:559664637598:android:305bbd587e72800521fd8f",
+        "android_client_info": {
+          "package_name": "com.example.midnimo_gass"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCclYLV1H4zB2x4BAMnc5gw5aRYAxEl8M4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
