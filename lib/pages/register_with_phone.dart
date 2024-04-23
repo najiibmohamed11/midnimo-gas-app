@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:midnimo/components/customdialog%20.dart';
 import 'package:midnimo/pages/home.dart';
 import 'package:midnimo/pages/otp_verfication.dart';
 import 'package:midnimo/utility/utilits.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class RegisterWithPhoneNumber extends StatefulWidget {
   const RegisterWithPhoneNumber({Key? key}) : super(key: key);
@@ -15,46 +17,63 @@ class RegisterWithPhoneNumber extends StatefulWidget {
 
 class _RegisterWithPhoneNumberState extends State<RegisterWithPhoneNumber> {
   final TextEditingController controller = TextEditingController();
-  bool _isLoading = false;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   _signInWithMobileNumber() async {
-    UserCredential _credential;
-    User user;
     try {
       await _auth.verifyPhoneNumber(
-          phoneNumber: '+252' + controller.text.trim(),
-          verificationCompleted: (PhoneAuthCredential authCredential) async {
-            await _auth.signInWithCredential(authCredential).then((value) {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Home()));
-            });
-          },
-          verificationFailed: ((error) {
-            print(error);
-          }),
-          codeSent: (String verificationId, [int? forceResendingToken]) {
+        phoneNumber: '+252' + controller.text.trim(),
+        verificationCompleted: (PhoneAuthCredential authCredential) async {
+          await _auth.signInWithCredential(authCredential).then((value) {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Otpverficationpage(
-                          verificationId: verificationId,
-                          number: controller.text,
-                        )));
-          },
-          codeAutoRetrievalTimeout: (String verificationId) {
-            verificationId = verificationId;
-          },
-          timeout: Duration(seconds: 45));
-    } catch (e) {}
+                context, MaterialPageRoute(builder: (context) => Home()));
+          });
+        },
+        verificationFailed: ((error) async {
+          showDialog(
+            context: context,
+            builder: (context) => CustomDialog(
+              title: "Verification failed",
+              content: error.toString(),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          );
+        }),
+        codeSent: (String verificationId, [int? forceResendingToken]) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Otpverficationpage(
+                verificationId: verificationId,
+                number: controller.text,
+              ),
+            ),
+          );
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+          verificationId = verificationId;
+        },
+        timeout: Duration(seconds: 45),
+      );
+    } catch (e) {
+      print('Error during verification: $e');
+    }
   }
+
+  //pop up
 
   @override
   Widget build(BuildContext context) {
-    print(controller.text);
+    bool _saving = false;
+
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: SingleChildScrollView(
+      resizeToAvoidBottomInset: true,
+      backgroundColor: Colors.white,
+      body: ModalProgressHUD(
+        inAsyncCall: _saving,
+        child: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(30),
             width: double.infinity,
@@ -99,8 +118,7 @@ class _RegisterWithPhoneNumberState extends State<RegisterWithPhoneNumber> {
                   child: Stack(
                     children: [
                       InternationalPhoneNumberInput(
-                        onInputChanged: (PhoneNumber number) {
-                        },
+                        onInputChanged: (PhoneNumber number) {},
                         onInputValidated: (bool value) {
                           print(value);
                         },
@@ -108,9 +126,8 @@ class _RegisterWithPhoneNumberState extends State<RegisterWithPhoneNumber> {
                           selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
                           showFlags: true,
                           useEmoji: true,
-                          // Add more configurations here if needed
                         ),
-                        countries: ['SO'], // Limiting to Somalia
+                        countries: ['SO'],
                         ignoreBlank: false,
                         autoValidateMode: AutovalidateMode.disabled,
                         selectorTextStyle: TextStyle(color: Colors.black),
@@ -148,20 +165,27 @@ class _RegisterWithPhoneNumberState extends State<RegisterWithPhoneNumber> {
                 MaterialButton(
                   minWidth: double.infinity,
                   onPressed: () async {
-                    setState(() => _isLoading = true);
+                    setState(() {
+                      _saving = true; // Show the loading indicator
+                    });
 
-                    String? verificationId;
-                    _signInWithMobileNumber();
-
-                    // Call verifyPhoneNumber and pass a callback to set verificationId
-
-                    setState(() => _isLoading = false);
+                    try {
+                      await _signInWithMobileNumber();
+                    } catch (e) {
+                      print('Error during sign in: $e');
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                              'An error occurred during sign-in. Please try again.'),
+                        ),
+                      );
+                    }
                   },
                   color: Kmost_used,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5)),
                   padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                  child: _isLoading
+                  child: _saving
                       ? Container(
                           width: 20,
                           height: 20,
@@ -174,25 +198,11 @@ class _RegisterWithPhoneNumberState extends State<RegisterWithPhoneNumber> {
                       : Text("Request OTP",
                           style: TextStyle(color: Colors.white)),
                 ),
-                // SizedBox(height: 20),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     Text('Already have an account?',
-                //         style: TextStyle(color: Colors.grey.shade700)),
-                //     SizedBox(width: 5),
-                //     InkWell(
-                //       onTap: () {
-                //         Navigator.of(context).pushReplacementNamed('/login');
-                //       },
-                //       child:
-                //           Text('Login', style: TextStyle(color: Colors.black)),
-                //     )
-                //   ],
-                // )
               ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

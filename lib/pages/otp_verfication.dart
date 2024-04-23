@@ -1,19 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:midnimo/components/customdialog%20.dart';
 import 'package:midnimo/pages/home.dart';
 import 'package:midnimo/utility/utilits.dart';
 import 'package:pinput/pinput.dart';
 
-
 class Otpverficationpage extends StatelessWidget {
   final String number;
   final String verificationId;
-  
 
   Otpverficationpage(
       {Key? key, required this.number, required this.verificationId})
       : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
@@ -80,25 +78,28 @@ class Otpverficationpage extends StatelessWidget {
                   ),
                 ),
                 onCompleted: (pin) async {
-                               FirebaseAuth auth = FirebaseAuth.instance;
-                              PhoneAuthCredential _credential =
-                                  PhoneAuthProvider.credential(
-                                      verificationId: verificationId,
-                                      smsCode: pin);
-                              auth
-                                  .signInWithCredential(_credential)
-                                  .then((result) {
-                                if (result != null) {
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Home()));
-                                }
-                              }).catchError((e) {
-                                print(e);
-                              });
-            
+                  FirebaseAuth auth = FirebaseAuth.instance;
+                  PhoneAuthCredential _credential =
+                      PhoneAuthProvider.credential(
+                          verificationId: verificationId, smsCode: pin);
+                  auth.signInWithCredential(_credential).then((result) {
+                    if (result != null) {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Home()));
+                    }
+                  }).catchError((e) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => CustomDialog(
+                        title: "Verification failed",
+                        content:
+                            "The verification code from SMS/TOTP is invalid. Please check and enter the correct verification code again.",
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    );
+                  });
                 },
               ),
             ],

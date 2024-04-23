@@ -83,4 +83,5 @@ class DefaultFirebaseOptions {
     authDomain: 'midnimo-gas-b345d.firebaseapp.com',
     storageBucket: 'midnimo-gas-b345d.appspot.com',
   );
+
 }
