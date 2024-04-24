@@ -50,13 +50,26 @@ class Itemcardtampleate extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Center(
-                        child: Image.asset(
-                          imageurl,
-                          fit: catagory == "cilad bixin"
-                              ? BoxFit.fill
-                              : BoxFit.contain,
-                        ),
-                      ),
+                          child: Stack(
+                        children: [
+                          Image.asset(
+                            imageurl,
+                            fit: catagory == "cilad bixin"
+                                ? BoxFit.fill
+                                : BoxFit.contain,
+                          ),
+                          catagory == "agab cusub" ||
+                                  imageurl != "assets/images/haan 6KG.png"
+                              ? Expanded(
+                                  child: Center(
+                                    child: Image.asset(
+                                      "assets/images/coocker.png",
+                                    ),
+                                  ),
+                                )
+                              : SizedBox.shrink(),
+                        ],
+                      )),
                     ),
                     Text(
                       "\$$price",

@@ -6,7 +6,6 @@ import 'package:flutter/widgets.dart';
 import 'package:midnimo/components/filtercard.dart';
 import 'package:midnimo/components/itemcard.dart';
 
-
 class Home extends StatefulWidget {
   const Home({super.key});
 
@@ -50,20 +49,20 @@ class _HomeState extends State<Home> {
   ];
   List<Map<String, dynamic>> agab_cusub = [
     {
-      "image": "assets/images/haan cag 17kg & burjukadeeda cusub.png",
+      "image": "assets/images/haan cag 17kg.png",
       "titile": "17 KG CAAG ",
       "description": "haan caag ah iyo jikadeeda oo cusub hada dalbo",
       "price": 129
     },
     {
-      "image": "assets/images/hanbir 13 kg & burjiko cuseeeb.png",
+      "image": "assets/images/haanbir13kg.png",
       "titile": "haan 13KG Bir",
       "description":
           "hadii uu GASS  kaa dhamaaday haantaduna eytahay BIR 13 KG hada dalbo",
       "price": 23
     },
     {
-      "image": "assets/images/haanbir13kg.png",
+      "image": "assets/images/haan 6KG.png",
       "titile": "6 KG BIR ",
       "description":
           "hadii uu GASS  kaa dhamaaday haantaduna eytahay BIR 6KG hada dalbo",
@@ -142,9 +141,9 @@ class _HomeState extends State<Home> {
               children: [
                 Filtercard(
                   imageurl: "assets/images/haan cag 17kg.png",
- 
                   text: "soo \nbuuxin",
-                  titale_COLOR: Colors.white,
+                  titale_COLOR:
+                      items_name == "soo buuxin" ? Colors.white : Colors.black,
                   width: 40,
                   height: 80,
                   isclicked: items_name == "soo buuxin",
