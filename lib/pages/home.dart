@@ -47,6 +47,7 @@ class _HomeState extends State<Home> {
       "price": 0
     },
   ];
+
   List<Map<String, dynamic>> agab_cusub = [
     {
       "image": "assets/images/haan cag 17kg.png",
@@ -59,14 +60,14 @@ class _HomeState extends State<Home> {
       "titile": "haan 13KG Bir",
       "description":
           "hadii uu GASS  kaa dhamaaday haantaduna eytahay BIR 13 KG hada dalbo",
-      "price": 23
+      "price": 110
     },
     {
       "image": "assets/images/haan 6KG.png",
       "titile": "6 KG BIR ",
       "description":
           "hadii uu GASS  kaa dhamaaday haantaduna eytahay BIR 6KG hada dalbo",
-      "price": 11
+      "price": 60
     },
   ];
 

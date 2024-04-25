@@ -1,4 +1,7 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:midnimo/pages/map.dart';
 
 class Itemcardtampleate extends StatelessWidget {
   Itemcardtampleate({
@@ -25,7 +28,7 @@ class Itemcardtampleate extends StatelessWidget {
           padding: catagory == "cilad bixin"
               ? EdgeInsets.symmetric()
               : EdgeInsets.symmetric(horizontal: 15.0, vertical: 8.0),
-          width: 150,
+          width: 185,
           height: 190,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -48,35 +51,47 @@ class Itemcardtampleate extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(
-                      child: Center(
-                          child: Stack(
+                    Center(
+                      child: Stack(
+                        clipBehavior: Clip.none,
                         children: [
                           Image.asset(
                             imageurl,
                             fit: catagory == "cilad bixin"
                                 ? BoxFit.fill
                                 : BoxFit.contain,
+                            width: 80,
                           ),
-                          catagory == "agab cusub" ||
+                          catagory == "agab cusub" &&
                                   imageurl != "assets/images/haan 6KG.png"
-                              ? Expanded(
+                              ? Positioned(
+                                  bottom: 0,
+                                  left: 0,
                                   child: Center(
-                                    child: Image.asset(
-                                      "assets/images/coocker.png",
+                                    child: Container(
+                                      width: 100,
+                                      child: Image.asset(
+                                        "assets/images/coocker.png",
+                                      ),
                                     ),
                                   ),
                                 )
                               : SizedBox.shrink(),
                         ],
-                      )),
+                      ),
                     ),
-                    Text(
-                      "\$$price",
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
+                    Spacer(),
+                    Expanded(
+                      flex: 2,
+                      child: AutoSizeText(
+                        minFontSize: 1,
+                        overflow: TextOverflow.ellipsis,
+                        "\$$price",
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ],
@@ -106,7 +121,14 @@ class Itemcardtampleate extends StatelessWidget {
                 height: 10.0,
               ),
               MaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Maplocation(),
+                    ),
+                  );
+                },
                 child: Text(
                   "DALBO",
                   style: TextStyle(color: Colors.white),
