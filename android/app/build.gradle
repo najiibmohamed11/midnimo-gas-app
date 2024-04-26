@@ -35,9 +35,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
+     kotlinOptions {
         jvmTarget = '1.8'
     }
+
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -52,6 +53,8 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        versionName flutterVersionName
+        multiDexEnabled true
     }
 
     buildTypes {

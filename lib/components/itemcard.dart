@@ -125,7 +125,7 @@ class Itemcardtampleate extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Maplocation(),
+                      builder: (context) => MapLocation(),
                     ),
                   );
                 },
