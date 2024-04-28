@@ -43,6 +43,7 @@ dependencies:
   auto_size_text: ^3.0.0  # Use the latest version available
   google_maps_flutter: ^2.6.1
   location: ^6.0.1
+  flutter_polyline_points: ^2.0.0
 
 
 
